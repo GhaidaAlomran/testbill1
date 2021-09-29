@@ -6,11 +6,13 @@ void main() {
   runApp(MyHomePage());
 }
 
+//gg
+//gg
 class MyHomePage extends StatelessWidget {
   final List<Transaction> transactions = [
     Transaction(
       id: "t1",
-      title: "Shoes",
+      title: "Shoe",
       amount: 69.99,
       date: DateTime.now(),
     ),
