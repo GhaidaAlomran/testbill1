@@ -23,7 +23,7 @@ class MyHomePage extends StatelessWidget {
       date: DateTime.now(),
     ),
   ];
-
+//gg
   String titleInput;
   String amountInput;
   final titleContoller = TextEditingController();
