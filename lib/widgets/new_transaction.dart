@@ -31,10 +31,10 @@ class _NewTransactionState extends State<NewTransaction> {
 
     Navigator.of(context).pop();
   } //علشان يربط الفنشكن الي جتنا من الكلاس اللي فوق مع هذا الكلاس
-
+//gg
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return SingleChildScrollViewgit remote add origin https://github.com/GhaidaAlomran/test55.git(
       child: Card(
         elevation: 5,
         child: Container(
