@@ -1,42 +1,99 @@
+import 'package:flutter/services.dart';
+
+import './widgets/new_transaction.dart';
+
+import './widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
-import './transaction.dart';
-import 'package:date_format/date_format.dart';
+import 'models/transaction.dart';
 
 void main() {
-  runApp(MyHomePage());
+  SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
+  runApp(MyApp());
 }
 
-//gg
-//gg
-class MyHomePage extends StatelessWidget {
-  final List<Transaction> transactions = [
-    Transaction(
-      id: "t1",
-      title: "Shoes",
-      amount: 69.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t2",
-      title: "STC",
-      amount: 49.00,
-      date: DateTime.now(),
-    ),
-  ];
-//gg
-  String titleInput;
-  String amountInput;
-  final titleContoller = TextEditingController();
-  final amountContoller = TextEditingController();
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text("My app"),
+      title: 'Flutter App',
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+        accentColor: Colors.red,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  //String titleInput;
+
+  //String amountInput;
+
+  final List<Transaction> _userTransactions = [
+    // Transaction(
+    //   id: "t1",
+    //   title: "Shoes",
+    //   amount: 69.99,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t2",
+    //   title: "STC",
+    //   amount: 49.00,
+    //   date: DateTime.now(),
+    // ),
+  ];
+
+  void _addTransaction(String txTitle, double txAmount) {
+    final newTx = Transaction(
+      id: DateTime.now().toString(),
+      title: txTitle,
+      amount: txAmount,
+      date: DateTime.now(),
+    );
+
+    setState(() {
+      _userTransactions.add(newTx);
+    });
+  }
+
+  void _startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: NewTransaction(_addTransaction),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("My app"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => _startAddNewTransaction(context),
           ),
-          body: Column(
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: 500,
+          child: Column(
             //  mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -48,85 +105,16 @@ class MyHomePage extends StatelessWidget {
                   elevation: 5,
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextField(
-                    decoration: InputDecoration(labelText: 'Title'),
-                    // onChanged: (val) {
-                    //الطريقة الاولى (أ)
-                    //  titleInput = val;
-                    //gg
-                    //gggg
-                    //gg
-//ggggg
-//g
-//ggg
-//g
-//g
-//g
-//gg
-                    //gggggg
-                    controller: titleContoller,
-                  ),
-                  TextField(
-                    decoration: InputDecoration(labelText: 'Amount'),
-                    // onChanged: (val) => amountInput = val, //الطريقة الاولى (ب)
-                    controller: amountContoller,
-                  ),
-                  FlatButton(
-                    child: Text("Add Transaction"),
-                    textColor: Colors.purple,
-                    onPressed: () {
-                      print(titleContoller.text);
-                      print(amountContoller.text);
-                    },
-                  ),
-                ],
-              ),
-              Column(
-                children: transactions.map((tr) {
-                  return Card(
-                      child: Row(
-                    children: [
-                      Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.purple, width: 2),
-                        ),
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          '\$${tr.amount}',
-                          style: TextStyle(
-                              color: Colors.purple,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        ),
-                      ),
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              tr.title,
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              formatDate(tr.date, [yyyy, '-', mm, '-', dd]),
-                              //DateFormat('yyyy-MM-dd').format(tr.date),
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ));
-                }).toList(),
-              )
+              TransactionList(_userTransactions),
             ],
-          )),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => _startAddNewTransaction(context),
+      ),
     );
   }
 }
