@@ -5,6 +5,7 @@ class NewTransaction extends StatefulWidget {
 // سويناه ستيتفل علشان لما ادخل البيانات وانتقل من انبوت الى انبوت ما تطبي المعلومات
 //gg
 //gg
+//gg
   final Function addTx;
 
   NewTransaction(this.addTx);
