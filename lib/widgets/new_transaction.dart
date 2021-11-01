@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class NewTransaction extends StatefulWidget {
   //على الرغم من اننا ما نادينا set state
 // سويناه ستيتفل علشان لما ادخل البيانات وانتقل من انبوت الى انبوت ما تطبي المعلومات
+//gg
   final Function addTx;
 
   NewTransaction(this.addTx);
